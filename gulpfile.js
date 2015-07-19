@@ -5,25 +5,33 @@ var gutil = require('gulp-util');
 
 // Add your require statements and gulp tasks here
 
+var jshint = require('gulp-jshint');
 var del = require('del');
+
+gulp.task('lint', function () {
+  return gulp.src('./js/index.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
 
 gulp.task('clean', function (cb) {
   del('js/bundle.js', cb);
 });
 
-var jshint = require('gulp-jshint');
+var uglify = require('gulp-uglify');
 
-gulp.task('lint', function () {
-  return gulp.src('./js/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+gulp.task('uglify', ['build'], function() {
+  return gulp.src('js/bundle.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('js'));
 });
 
 gulp.task('watch', function () {
-  return gulp.watch(['./js/*.js'], ['build'])
-})
+  return gulp.watch('js/index.js', ['build']);
+});
 
-gulp.task('default', ['watch', 'lint', 'serve', 'build'])
+gulp.task('default', ['serve', 'build']);
+
 
 //
 
@@ -71,4 +79,4 @@ gulp.task('serve:web', serve({
   port: 8000
 }));
 
-gulp.task('serve', ['serve:api', 'serve:web'])
+gulp.task('serve', ['serve:api', 'serve:web']);
