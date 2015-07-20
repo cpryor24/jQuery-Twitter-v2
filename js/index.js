@@ -6,7 +6,7 @@ var tmpl = require('./template.js')
 var currentUser = {
   handle: '@cpryor',
   img: '/images/colts.jpg',
-  id: 4
+  id: 5
 };
 
 $(function () {
@@ -63,10 +63,10 @@ $(function () {
 
     var message = $(this).find('textarea').val()
     var replyTweet = $(this).closest('.replies')
-    var getTweetId = replyTweet.siblings('.tweet').attr('id')
-    var tweetId = getTweetId.slice(6, 7)
 
     if(!!replyTweet.length) {
+    var getTweetId = replyTweet.siblings('.tweet').attr('id')
+    var tweetId = getTweetId.slice(6, 7)
      postReply(currentUser, tweetId, message)
     } else {
       postTweet(currentUser, message)
